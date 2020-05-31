@@ -1,7 +1,7 @@
 {
   "name": "quasar-todo",
   "version": "0.0.1",
-  "description": "A ToDo App made with Quasar Framework.",
+  "description": "A todo app and time tracker made with Quasar Framework.",
   "productName": "Quasar Todo",
   "cordovaId": "com.riltonleao.quasartodo",
   "capacitorId": "",

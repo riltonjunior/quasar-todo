@@ -47,10 +47,17 @@
         </q-item-section>
 
         <q-item-section
-        v-if="task.timeDuration !== 0"
+        v-if="task.timeDuration !== 0 && !task.running"
         side
         >
          {{ task.timeDuration | durationFormat }}
+        </q-item-section>
+        
+        <q-item-section
+        v-if="task.running"
+        side
+        >
+        <Timer />
         </q-item-section>
 
         <q-item-section
@@ -108,15 +115,18 @@
 
 <script>
 import { date } from 'quasar'
-import * as moment from 'moment'
+import * as Moment from 'moment'
 import 'moment/locale/pt-br'
 import 'moment-duration-format'
+import Timer from '../components/Timer.vue'
 
 export default {
   name: 'Todo',
+  components: {
+    Timer
+  },
   data () {
     return {
-      /* Time Tracker */
       /* Task */
       newTask: '',
       tasks: [
@@ -192,16 +202,16 @@ export default {
       this.tasks[index].timeDuration += (this.tasks[index].timeStopped - this.tasks[index].timeStarted)
       this.tasks[index].running = false
       const timeDuration = this.tasks[index].timeDuration
-      // console.log(moment.duration(timeDuration, 'milliseconds').format("d[d] h[h] m[m] s[s]", {trim: "both"}))
+      // console.log(Moment.duration(timeDuration, 'milliseconds').format("d[d] h[h] m[m] s[s]", {trim: "both"}))
       console.log(timeDuration)
     }
   },
   filters: {
     secondsAgo(value) {
-     return moment(value).fromNow()
+     return Moment(value).fromNow()
     },
     durationFormat(value) {
-     return moment.duration(value, 'milliseconds').format("d[d] h[h] m[m] s[s]", {trim: "both"})
+     return Moment.duration(value, 'milliseconds').format("d[d] h[h] m[m] s[s]", {trim: "both"})
     }
   }
 }
