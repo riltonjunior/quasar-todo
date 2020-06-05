@@ -37,16 +37,6 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple to="/auth" exact>
-              <q-item-section avatar>
-                <q-icon name="account_circle" />
-              </q-item-section>
-
-              <q-item-section>
-                Register
-              </q-item-section>
-            </q-item>
-
             <q-item clickable v-ripple to="/help" exact>
               <q-item-section avatar>
                 <q-icon name="help" />
@@ -57,7 +47,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple to="/settings" exact>
+            <q-item clickable v-if="loggedIn"  v-ripple to="/settings" exact>
               <q-item-section avatar>
                 <q-icon name="settings" />
               </q-item-section>
@@ -67,16 +57,44 @@
               </q-item-section>
             </q-item>
 
+            <q-item clickable v-if="loggedIn" v-ripple @click="logoutUser" exact>
+              <q-item-section avatar>
+                <q-icon color="red" name="account_circle" />
+              </q-item-section>
+
+              <q-item-section>
+                Logout
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-if="!loggedIn" v-ripple to="/auth" exact>
+              <q-item-section avatar>
+                <q-icon name="account_circle" />
+              </q-item-section>
+
+              <q-item-section>
+                Register
+              </q-item-section>
+            </q-item>
+
           </q-list>
         </q-scroll-area>
 
-        <q-img class="absolute-top" src="statics/bg.jpg" style="height: 192px;">
-          <div class="absolute-bottom bg-transparent">
+        <q-img class="absolute-top bg-primary custom-link" style="height: 192px;">
+          <div v-if="loggedIn" @click="logoutUser" class="absolute-bottom bg-transparent">
+              <q-avatar size="56px" class="q-mb-sm">
+                <img src="https://en.gravatar.com/userimage/2017002/3126ef9f54ee888ec006c44704b9bd77.jpeg">
+              </q-avatar>
+              <div class="text-weight-bold">email@email.com</div>
+              <div>Logout</div>
+          </div>
+          <div v-if="!loggedIn" class="absolute-bottom bg-transparent">
+            <router-link to="/auth">
             <q-avatar size="56px" class="q-mb-sm">
-              <img src="https://en.gravatar.com/userimage/2017002/3126ef9f54ee888ec006c44704b9bd77.jpeg">
+              <q-icon size="56px" name="account_circle" />
             </q-avatar>
-            <div class="text-weight-bold">Rilton Leão</div>
-            <div>@riltonjunior</div>
+            <div class="text-weight-bold">Login</div>
+            </router-link>
           </div>
         </q-img>
       </q-drawer>
@@ -91,6 +109,7 @@
 
 <script>
 import { date } from 'quasar'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'MainLayout',
@@ -100,10 +119,14 @@ export default {
     }
   },
   computed: {
+    ...mapState('auth', ['loggedIn']),
     todaysDate () {
       const timeStamp = Date.now()
       return date.formatDate(timeStamp, 'dddd, DD MMMM')
     }
+  },
+  methods: {
+    ...mapActions('auth', ['logoutUser'])
   }
 }
 </script>
@@ -114,5 +137,12 @@ export default {
   z-index: -1;
   opacity: 0.2;
   filter: grayscale(100%);
+}
+.custom-link a {
+  color:#FFF;
+  text-decoration: none;
+  &.router-link-exact-active.router-link-active {
+    opacity: .5;
+  }
 }
 </style>

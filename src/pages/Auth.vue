@@ -1,5 +1,5 @@
 <template>
-  <q-page class="bg-grey-3 column">
+  <q-page class="bg-grey-3 flex row justify-center items-center">
       <LoginRegister tab='login'></LoginRegister>
   </q-page>
 </template>

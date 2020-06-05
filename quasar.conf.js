@@ -24,7 +24,8 @@ module.exports = function (/* ctx */) {
     boot: [
       'firebase',
       'i18n',
-      'axios'
+      'axios',
+      'router-auth'
     ],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -101,7 +102,7 @@ module.exports = function (/* ctx */) {
       directives: [],
 
       // Quasar plugins
-      plugins: ['Dialog', 'Notify']
+      plugins: ['Dialog', 'Notify', 'LocalStorage']
     },
 
     // animations: 'all', // --- includes all animations

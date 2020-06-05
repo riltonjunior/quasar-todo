@@ -1,5 +1,5 @@
 <template>
-  <q-page class="q-pa-lg">
+  <q-page class="bg-grey-3 q-pa-lg">
      <q-list>
       <q-item tag="label" v-ripple>
         <q-item-section>
