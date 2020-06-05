@@ -23,7 +23,7 @@
       </q-input>
     </div>
     <q-list class="bg-white" separator bordered>
-      <q-item 
+      <q-item
         v-for="(task, index) in tasks"
         :key="task.title"
         @click="task.done = !task.done"
@@ -32,9 +32,9 @@
         clickable
       >
         <q-item-section avatar>
-          <q-checkbox 
-            v-model="task.done" 
-            color="primary" 
+          <q-checkbox
+            v-model="task.done"
+            color="primary"
             class="no-pointer-events"
           />
         </q-item-section>
@@ -52,7 +52,7 @@
         >
          {{ task.timeDuration | durationFormat }}
         </q-item-section>
-        
+
         <q-item-section
         v-if="task.running"
         side
@@ -64,26 +64,26 @@
         v-if="!task.done && !task.running"
         side
         >
-          <q-btn 
+          <q-btn
             @click.stop="startTracking(index)"
-            flat 
-            round 
-            color="primary" 
-            icon="play_circle_filled" 
+            flat
+            round
+            color="primary"
+            icon="play_circle_filled"
             dense
           />
         </q-item-section>
-        
+
         <q-item-section
         v-if="!task.done && task.running"
         side
         >
-          <q-btn 
+          <q-btn
             @click.stop="stopTracking(index)"
-            flat 
-            round 
-            color="primary" 
-            icon="pause_circle_filled" 
+            flat
+            round
+            color="primary"
+            icon="pause_circle_filled"
             dense
           >
           <q-icon
@@ -96,16 +96,16 @@
         v-if="task.done && !task.running"
         side
         >
-          <q-btn 
+          <q-btn
             @click.stop="deleteTask(index)"
-            flat 
-            round 
-            color="primary" 
-            icon="delete" 
+            flat
+            round
+            color="primary"
+            icon="delete"
             dense
           />
         </q-item-section>
-  
+
       </q-item>
     </q-list>
     <div v-if="!tasks.length" class="no-tasks absolute-center">
@@ -118,7 +118,6 @@
 </template>
 
 <script>
-import { date } from 'quasar'
 import * as moment from 'moment'
 import 'moment-duration-format'
 import 'moment/locale/pt-br'
@@ -167,13 +166,13 @@ export default {
     }
   },
   watch: {
-    tasks(val, oldVal) {
+    tasks (val, oldVal) {
       console.log('new: %s, old: %s', val, oldVal)
       console.log(this.timeDuration)
     }
   },
   methods: {
-    deleteTask(index) {
+    deleteTask (index) {
       this.$q.dialog({
         title: 'Você tem certeza?',
         message: 'Ao apagar esta tarefa não será mais possível resgatá-la.',
@@ -181,42 +180,40 @@ export default {
         persistent: true
       }).onOk(() => {
         this.tasks.splice(index, 1)
-        this.$q.notify({ type: 'positive', message: `Tarefa apagada com sucesso.` })
+        this.$q.notify({ type: 'positive', message: 'Tarefa apagada com sucesso.' })
       })
     },
-    addTask() {
+    addTask () {
       if (this.newTask === '') {
-      this.$q.notify({ type: 'warning', message: `Dê um nome a tarefa para adicioná-la.` })
+        this.$q.notify({ type: 'warning', message: 'Dê um nome a tarefa para adicioná-la.' })
       } else {
         this.tasks.push({
-        title: this.newTask,
-        done: false,
-        createdAt: Date.now(),
-        timeStarted: '',
-        timeStopped: '',
-        timeDuration: 0,
-        running: false
-      })
-      this.$q.notify({ type: 'positive', message: `Tarefa adicionada com sucesso.` })
-      this.newTask = ''
+          title: this.newTask,
+          done: false,
+          createdAt: Date.now(),
+          timeStarted: '',
+          timeStopped: '',
+          timeDuration: 0,
+          running: false
+        })
+        this.$q.notify({ type: 'positive', message: 'Tarefa adicionada com sucesso.' })
+        this.newTask = ''
       }
-      
     },
-    startTracking(index) {
+    startTracking (index) {
       if (this.timing === true) {
-        this.$q.notify({ type: 'error', message: `Você deve parar a tarefa em andamento para iniciar outra tarefa.` })
-
+        this.$q.notify({ type: 'error', message: 'Você deve parar a tarefa em andamento para iniciar outra tarefa.' })
       } else {
         const tasksRef = this.tasks[index]
         if (!tasksRef.timeStarted) {
-            tasksRef.timeStarted = Date.now()
+          tasksRef.timeStarted = Date.now()
         }
         tasksRef.running = true
         this.timing = true
-        this.$q.notify({ type: 'info', message: `Registro de tempo iniciado.` })
+        this.$q.notify({ type: 'info', message: 'Registro de tempo iniciado.' })
       }
     },
-    stopTracking(index) {
+    stopTracking (index) {
       const tasksRef = this.tasks[index]
       if (!tasksRef.timeStopped) {
         tasksRef.timeStopped = Date.now()
@@ -224,15 +221,16 @@ export default {
       tasksRef.timeDuration += (tasksRef.timeStopped - tasksRef.timeStarted)
       tasksRef.running = false
       this.timing = false
-      this.$q.notify({ type: 'info', message: `Registro de tempo parado.` })
+      this.$q.notify({ type: 'info', message: 'Registro de tempo parado.' })
     }
   },
   filters: {
-    secondsAgo(value) {
-     return moment(value).fromNow()
+    secondsAgo (value) {
+      return moment(value).fromNow()
     },
-    durationFormat(value) {
-     return moment.duration(value, 'milliseconds').format("d[d] h[h] m[m] s[s]", {trim: "both"})
+    durationFormat (value) {
+      // eslint-disable-next-line import/namespace
+      return moment.duration(value, 'milliseconds').format('d[d] h[h] m[m] s[s]', { trim: 'both' })
     }
   }
 }

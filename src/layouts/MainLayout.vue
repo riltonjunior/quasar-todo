@@ -16,6 +16,7 @@
         <div class="text-subtitle1">{{todaysDate}}</div>
       </div>
       <q-img src="statics/bg.jpg" class="header-image absolute-top" />
+
     </q-header>
 
     <q-drawer
@@ -33,6 +34,16 @@
 
               <q-item-section>
                 Todo
+              </q-item-section>
+            </q-item>
+
+            <q-item clickable v-ripple to="/auth" exact>
+              <q-item-section avatar>
+                <q-icon name="account_circle" />
+              </q-item-section>
+
+              <q-item-section>
+                Register
               </q-item-section>
             </q-item>
 
@@ -70,7 +81,6 @@
         </q-img>
       </q-drawer>
 
-
     <q-page-container>
       <keep-alive>
         <router-view />
@@ -90,8 +100,8 @@ export default {
     }
   },
   computed: {
-    todaysDate() {
-      let timeStamp = Date.now()
+    todaysDate () {
+      const timeStamp = Date.now()
       return date.formatDate(timeStamp, 'dddd, DD MMMM')
     }
   }

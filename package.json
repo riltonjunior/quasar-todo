@@ -1,27 +1,36 @@
 {
   "name": "quasar-todo",
   "version": "0.0.1",
-  "description": "A todo app and time tracker made with Quasar Framework.",
-  "productName": "Quasar Todo",
-  "cordovaId": "com.riltonleao.quasartodo",
+  "description": "A todo app and time tracker made with Quasar Framework and Firestore.",
+  "productName": "Todo Special App",
+  "cordovaId": "org.cordova.quasar.app",
   "capacitorId": "",
-  "author": "Rilton Leão",
+  "author": "Rilton Leão <riltonjunior@gmail.com>",
   "private": true,
   "scripts": {
+    "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
+    "axios": "^0.18.1",
+    "quasar": "^1.0.0",
+    "vue-i18n": "^8.0.0",
+    "firebase": "^7.14.6",
     "moment": "^2.26.0",
-    "moment-duration-format": "^2.3.2",
-    "quasar": "^1.0.0"
+    "moment-duration-format": "^2.3.2"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0",
-    "devtron": "^1.4.0",
-    "electron": "^9.0.0",
-    "electron-debug": "^3.1.0",
-    "electron-devtools-installer": "^3.0.0"
+    "babel-eslint": "^10.0.1",
+    "eslint": "^6.8.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "eslint-plugin-vue": "^6.1.2"
   },
   "engines": {
     "node": ">= 10.18.1",
@@ -30,5 +39,8 @@
   },
   "browserslist": [
     "last 1 version, not dead, ie >= 11"
-  ]
+  ],
+  "resolutions": {
+    "@babel/parser": "7.7.5"
+  }
 }

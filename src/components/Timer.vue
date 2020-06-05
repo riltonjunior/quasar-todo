@@ -9,39 +9,39 @@
 
 <script>
 export default {
-  name: "Timer",
-  data() {
+  name: 'Timer',
+  data () {
     return {
       elapsedTime: 0,
       timer: undefined
-    };
+    }
   },
   computed: {
-    formattedElapsedTime() {
-      const date = new Date(null);
-      date.setSeconds(this.elapsedTime / 1000);
-      const utc = date.toUTCString();
-      return utc.substr(utc.indexOf(":") - 2, 8);
+    formattedElapsedTime () {
+      const date = new Date(null)
+      date.setSeconds(this.elapsedTime / 1000)
+      const utc = date.toUTCString()
+      return utc.substr(utc.indexOf(':') - 2, 8)
     }
   },
   methods: {
-    start() {
+    start () {
       this.timer = setInterval(() => {
-        this.elapsedTime += 1000;
-      }, 1000);
+        this.elapsedTime += 1000
+      }, 1000)
     },
-    stop() {
-      clearInterval(this.timer);
+    stop () {
+      clearInterval(this.timer)
     },
-    reset() {
-      this.elapsedTime = 0;
+    reset () {
+      this.elapsedTime = 0
     }
   },
-  created() {
-      this.start()
+  created () {
+    this.start()
   },
-  beforeDestroy() {
-      this.stop()
+  beforeDestroy () {
+    this.stop()
   }
-};
+}
 </script>

@@ -25,50 +25,50 @@ export default {
   props: {
     deadline: {
       type: String,
-      required: true,
+      required: true
     },
     speed: {
       type: Number,
-      default: 1000,
-    },
+      default: 1000
+    }
   },
-  data() {
+  data () {
     return {
       currentTime: Date.parse(this.deadline) - Date.parse(new Date())
-    };
+    }
   },
-  mounted() {
-    setTimeout(this.countdown, 1000);
+  mounted () {
+    setTimeout(this.countdown, 1000)
   },
   computed: {
-    seconds() {
-      return Math.floor((this.currentTime / 1000) % 60);
+    seconds () {
+      return Math.floor((this.currentTime / 1000) % 60)
     },
-    minutes() {
-      return Math.floor((this.currentTime / 1000 / 60) % 60);
+    minutes () {
+      return Math.floor((this.currentTime / 1000 / 60) % 60)
     },
-    hours() {
-      return Math.floor((this.currentTime / (1000 * 60 * 60)) % 24);
+    hours () {
+      return Math.floor((this.currentTime / (1000 * 60 * 60)) % 24)
     },
-    days() {
-      return Math.floor(this.currentTime / (1000 * 60 * 60 * 24));
+    days () {
+      return Math.floor(this.currentTime / (1000 * 60 * 60 * 24))
     }
   },
   filters: {
-    formatTime(value) {
+    formatTime (value) {
       if (value < 10) {
-        return "0" + value;
+        return '0' + value
       }
-      return value;
+      return value
     }
   },
   methods: {
-    countdown() {
-      this.currentTime = Date.parse(this.deadline) - Date.parse(new Date());
+    countdown () {
+      this.currentTime = Date.parse(this.deadline) - Date.parse(new Date())
       if (this.currentTime > 0) {
-        setTimeout(this.countdown, this.speed);
+        setTimeout(this.countdown, this.speed)
       } else {
-        this.currentTime = null;
+        this.currentTime = null
       }
     }
   }

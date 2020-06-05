@@ -1,6 +1,6 @@
-# Quasar Todo (quasar-todo)
+# Todo Special App (quasar-todo)
 
-A ToDo App made with Quasar Framework.
+A Todo and time tracker made with Quasar Framework and Firestore.
 
 ## Install the dependencies
 ```bash
@@ -12,6 +12,10 @@ npm install
 quasar dev
 ```
 
+### Lint the files
+```bash
+npm run lint
+```
 
 ### Build the app for production
 ```bash
