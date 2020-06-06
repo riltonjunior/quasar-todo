@@ -12,7 +12,7 @@
         />
       </q-toolbar>
       <div class="q-px-lg q-pt-xl q-mb-md">
-        <div class="text-h3">Lista de Tarefas</div>
+        <div class="text-h3">{{ $t('todo') }}</div>
         <div class="text-subtitle1">{{todaysDate}}</div>
       </div>
       <q-img src="statics/bg.jpg" class="header-image absolute-top" />
@@ -33,7 +33,7 @@
               </q-item-section>
 
               <q-item-section>
-                Todo
+                {{ $tc('task', 2) }}
               </q-item-section>
             </q-item>
 
@@ -43,7 +43,7 @@
               </q-item-section>
 
               <q-item-section>
-                Help
+                {{ $t('help') }}
               </q-item-section>
             </q-item>
 
@@ -53,7 +53,17 @@
               </q-item-section>
 
               <q-item-section>
-                Settings
+                {{ $t('settings') }}
+              </q-item-section>
+            </q-item>
+
+            <q-item v-ripple exact>
+              <q-item-section avatar>
+                <q-icon name="flag" />
+              </q-item-section>
+
+              <q-item-section>
+                <LanguageSwitcher></LanguageSwitcher>
               </q-item-section>
             </q-item>
 
@@ -63,7 +73,7 @@
               </q-item-section>
 
               <q-item-section>
-                Logout
+                {{ $t('logout') }}
               </q-item-section>
             </q-item>
 
@@ -73,7 +83,7 @@
               </q-item-section>
 
               <q-item-section>
-                Register
+                {{ $t('register') }}
               </q-item-section>
             </q-item>
 
@@ -81,19 +91,21 @@
         </q-scroll-area>
 
         <q-img class="absolute-top bg-primary custom-link" style="height: 192px;">
-          <div v-if="loggedIn" @click="logoutUser" class="absolute-bottom bg-transparent">
+          <div v-if="loggedIn" class="absolute-bottom bg-transparent">
               <q-avatar size="56px" class="q-mb-sm">
-                <img src="https://en.gravatar.com/userimage/2017002/3126ef9f54ee888ec006c44704b9bd77.jpeg">
+                <q-icon v-if="!user.image" size="56px" name="account_circle" />
+                <!-- <img v-if="!user.image" src="https://en.gravatar.com/userimage/2017002/3126ef9f54ee888ec006c44704b9bd77.jpeg"> -->
+                <img v-if="user.image" :src="user.image">
               </q-avatar>
-              <div class="text-weight-bold">email@email.com</div>
-              <div>Logout</div>
+              <div class="text-weight-bold">{{ user.email }}</div>
+              <a @click="logoutUser">{{ $t('logout') }}</a>
           </div>
           <div v-if="!loggedIn" class="absolute-bottom bg-transparent">
             <router-link to="/auth">
             <q-avatar size="56px" class="q-mb-sm">
               <q-icon size="56px" name="account_circle" />
             </q-avatar>
-            <div class="text-weight-bold">Login</div>
+            <div class="text-weight-bold">{{ $t('login') }}</div>
             </router-link>
           </div>
         </q-img>
@@ -110,9 +122,13 @@
 <script>
 import { date } from 'quasar'
 import { mapState, mapActions } from 'vuex'
+import LanguageSwitcher from 'components/LanguageSwitcher'
 
 export default {
   name: 'MainLayout',
+  components: {
+    LanguageSwitcher
+  },
   data () {
     return {
       leftDrawerOpen: false
@@ -120,13 +136,19 @@ export default {
   },
   computed: {
     ...mapState('auth', ['loggedIn']),
+    ...mapState('auth', ['user']),
     todaysDate () {
       const timeStamp = Date.now()
       return date.formatDate(timeStamp, 'dddd, DD MMMM')
     }
   },
   methods: {
-    ...mapActions('auth', ['logoutUser'])
+    ...mapActions('auth', ['logoutUser']),
+    userImg () {
+      if (!this.user.image) {
+        return 'statics/bg.jpg'
+      }
+    }
   }
 }
 </script>
@@ -141,8 +163,12 @@ export default {
 .custom-link a {
   color:#FFF;
   text-decoration: none;
+  &:hover {
+    cursor: pointer;
+    font-weight: bold;
+  }
   &.router-link-exact-active.router-link-active {
-    opacity: .5;
+    // opacity: .5;
   }
 }
 </style>

@@ -1,5 +1,6 @@
 export default function () {
   return {
-    loggedIn: false
+    loggedIn: false,
+    user: null
   }
 }

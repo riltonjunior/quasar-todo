@@ -3,7 +3,7 @@
     <div class="row q-pa-sm bg-primary">
       <q-input
         v-model="newTask"
-        @keyup.enter="addTask"
+        @keyup.enter="addTask(newTask)"
         square
         filled
         class="col"
@@ -13,7 +13,7 @@
         >
         <template v-slot:append>
           <q-btn
-            @click="addTask"
+            @click="addTask(newTask)"
             round
             dense
             flat
@@ -31,6 +31,7 @@
         v-ripple
         clickable
       >
+      <EditTask></EditTask>
         <q-item-section avatar>
           <q-checkbox
             v-model="task.done"
@@ -58,6 +59,20 @@
         side
         >
         <Timer />
+        </q-item-section>
+
+        <q-item-section
+        v-if="!task.done && !task.running"
+        side
+        >
+          <q-btn
+            @click.stop="openEdit(index)"
+            flat
+            round
+            color="primary"
+            icon="edit"
+            dense
+          />
         </q-item-section>
 
         <q-item-section
@@ -105,7 +120,6 @@
             dense
           />
         </q-item-section>
-
       </q-item>
     </q-list>
     <div v-if="!tasks.length" class="no-tasks absolute-center">
@@ -118,110 +132,52 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+import { mapFields } from 'vuex-map-fields'
 import * as moment from 'moment'
 import 'moment-duration-format'
 import 'moment/locale/pt-br'
 import Timer from '../components/Timer.vue'
+import EditTask from '../components/EditTask.vue'
 
 export default {
   name: 'Todo',
   components: {
-    Timer
+    Timer,
+    EditTask
   },
   data () {
     return {
-      /* Task */
-      newTask: '',
       timing: false,
-      tasks: [
-        {
-          title: 'Fazer as compras',
-          done: false,
-          createdAt: 1590953027638,
-          timeStarted: '',
-          timeStopped: '',
-          timeDuration: 0,
-          running: false
-
-        },
-        {
-          title: 'Atualizar currículos',
-          done: true,
-          createdAt: 1590953072486,
-          timeStarted: 1590966264096,
-          timeStopped: 1590966276274,
-          timeDuration: 12178,
-          running: false
-        },
-        {
-          title: 'Estudar Vue.js',
-          done: false,
-          createdAt: 1590953092493,
-          timeStarted: '',
-          timeStopped: '',
-          timeDuration: 0,
-          running: false
-        }
-      ]
+      newTask: '',
+      openDialog: false
     }
   },
   watch: {
     tasks (val, oldVal) {
-      console.log('new: %s, old: %s', val, oldVal)
-      console.log(this.timeDuration)
+      // console.log('new: %s, old: %s', val, oldVal)
+      console.log(val)
+      // console.log(oldVal)
     }
   },
+  computed: {
+    ...mapState('tasks', ['tasks']),
+    ...mapFields('tasks', ['tasks.done'])
+  },
   methods: {
-    deleteTask (index) {
+    ...mapActions('tasks', ['addTask', 'deleteTask', 'editTask', 'doneTask', 'startTracking', 'stopTracking']),
+    openEdit (index) {
       this.$q.dialog({
-        title: 'Você tem certeza?',
-        message: 'Ao apagar esta tarefa não será mais possível resgatá-la.',
-        cancel: true,
-        persistent: true
+        component: EditTask,
+        parent: this,
+        task: index
       }).onOk(() => {
-        this.tasks.splice(index, 1)
-        this.$q.notify({ type: 'positive', message: 'Tarefa apagada com sucesso.' })
+        console.log('OK')
+      }).onCancel(() => {
+        console.log('Cancel')
+      }).onDismiss(() => {
+        console.log('Called on OK or Cancel')
       })
-    },
-    addTask () {
-      if (this.newTask === '') {
-        this.$q.notify({ type: 'warning', message: 'Dê um nome a tarefa para adicioná-la.' })
-      } else {
-        this.tasks.push({
-          title: this.newTask,
-          done: false,
-          createdAt: Date.now(),
-          timeStarted: '',
-          timeStopped: '',
-          timeDuration: 0,
-          running: false
-        })
-        this.$q.notify({ type: 'positive', message: 'Tarefa adicionada com sucesso.' })
-        this.newTask = ''
-      }
-    },
-    startTracking (index) {
-      if (this.timing === true) {
-        this.$q.notify({ type: 'error', message: 'Você deve parar a tarefa em andamento para iniciar outra tarefa.' })
-      } else {
-        const tasksRef = this.tasks[index]
-        if (!tasksRef.timeStarted) {
-          tasksRef.timeStarted = Date.now()
-        }
-        tasksRef.running = true
-        this.timing = true
-        this.$q.notify({ type: 'info', message: 'Registro de tempo iniciado.' })
-      }
-    },
-    stopTracking (index) {
-      const tasksRef = this.tasks[index]
-      if (!tasksRef.timeStopped) {
-        tasksRef.timeStopped = Date.now()
-      }
-      tasksRef.timeDuration += (tasksRef.timeStopped - tasksRef.timeStarted)
-      tasksRef.running = false
-      this.timing = false
-      this.$q.notify({ type: 'info', message: 'Registro de tempo parado.' })
     }
   },
   filters: {
