@@ -9,8 +9,8 @@
           align="justify"
           narrow-indicator
         >
-          <q-tab name="login" label="Login" />
-          <q-tab name="register" label="Register" />
+          <q-tab name="login" :label="$t('login')" />
+          <q-tab name="register" :label="$t('register')" />
         </q-tabs>
     <q-tab-panels v-model="tab" animated>
     <q-tab-panel name="login">
@@ -23,7 +23,7 @@
           filled
           type="email"
           v-model="userForm.email"
-          label="Your email"
+          :label="$t('yourEmail')"
           :rules="[ val => isValidEmailAddress(val) || 'Favor inserir um email válido.']"
           ref="email"
           lazy-rules
@@ -33,14 +33,14 @@
           filled
           type="password"
           v-model="userForm.password"
-          label="Your password"
+          :label="$t('yourPassword')"
           :rules="[ val => val.length >= 6 || 'Favor inserir ao menos 6 caracteres.']"
           ref="password"
           lazy-rules
         />
         <div>
-          <q-btn label="Submit" type="submit" color="primary"/>
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+          <q-btn :label="$t('submit')" type="submit" color="primary"/>
+          <q-btn :label="$t('reset')" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
       </q-form>
     </q-tab-panel>
@@ -54,7 +54,7 @@
           filled
           type="email"
           v-model="userForm.email"
-          label="Your email"
+          :label="$t('yourEmail')"
           :rules="[ val => isValidEmailAddress(val) || 'Favor inserir um email válido.']"
           ref="email"
           lazy-rules
@@ -64,17 +64,17 @@
           filled
           type="password"
           v-model="userForm.password"
-          label="Your password"
+          :label="$t('yourPassword')"
           :rules="[ val => val.length >= 6 || 'Favor inserir ao menos 6 caracteres.']"
           ref="password"
           lazy-rules
         />
 
-        <q-toggle v-model="userForm.accept" label="I accept the license and terms" />
+        <q-toggle v-model="userForm.accept" :label="$t('acceptTerms')" />
 
         <div>
-          <q-btn label="Submit" type="submit" color="primary"/>
-          <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+          <q-btn :label="$t('submit')" type="submit" color="primary"/>
+          <q-btn :label="$t('reset')" type="reset" color="primary" flat class="q-ml-sm" />
         </div>
       </q-form>
     </q-tab-panel>

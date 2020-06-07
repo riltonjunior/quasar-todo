@@ -10,8 +10,12 @@ export default function () {
         timeStopped: '',
         timeDuration: 0,
         description: '',
+        categories: [{
+          id: '03',
+          title: 'Casa',
+          color: 'teal'
+        }],
         running: false
-
       },
       {
         title: 'Atualizar currículos',
@@ -21,6 +25,16 @@ export default function () {
         timeStopped: 1590966276274,
         timeDuration: 12178,
         description: '',
+        categories: [{
+          id: '01',
+          title: 'Trabalho',
+          color: 'purple'
+        },
+        {
+          id: '02',
+          title: 'Estudo',
+          color: 'green'
+        }],
         running: false
       },
       {
@@ -31,6 +45,10 @@ export default function () {
         timeStopped: '',
         timeDuration: 0,
         description: '',
+        categories: [{
+          id: '02',
+          title: 'Estudo'
+        }],
         running: false
       }
     ]

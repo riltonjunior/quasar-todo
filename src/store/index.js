@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 
 import auth from './auth'
 import tasks from './tasks'
+import categories from './categories'
 import settings from './settings'
 
 Vue.use(Vuex)
@@ -21,6 +22,7 @@ export default function (/* { ssrContext } */) {
     modules: {
       auth,
       tasks,
+      categories,
       settings
     },
 

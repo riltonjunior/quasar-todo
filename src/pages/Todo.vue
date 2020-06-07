@@ -1,26 +1,7 @@
 <template>
   <q-page class="bg-grey-3 column">
     <div class="row q-pa-sm bg-primary">
-      <q-input
-        v-model="newTask"
-        @keyup.enter="addTask(newTask)"
-        square
-        filled
-        class="col"
-        bg-color="white"
-        placeholder="Adicionar tarefa"
-        dense
-        >
-        <template v-slot:append>
-          <q-btn
-            @click="addTask(newTask)"
-            round
-            dense
-            flat
-            icon="add"
-          />
-        </template>
-      </q-input>
+      <AddTask></AddTask>
     </div>
     <q-list class="bg-white" separator bordered>
       <q-item
@@ -139,17 +120,18 @@ import 'moment-duration-format'
 import 'moment/locale/pt-br'
 import Timer from '../components/Timer.vue'
 import EditTask from '../components/EditTask.vue'
+import AddTask from '../components/AddTask.vue'
 
 export default {
   name: 'Todo',
   components: {
     Timer,
-    EditTask
+    EditTask,
+    AddTask
   },
   data () {
     return {
       timing: false,
-      newTask: '',
       openDialog: false
     }
   },
@@ -165,7 +147,7 @@ export default {
     ...mapFields('tasks', ['tasks.done'])
   },
   methods: {
-    ...mapActions('tasks', ['addTask', 'deleteTask', 'editTask', 'doneTask', 'startTracking', 'stopTracking']),
+    ...mapActions('tasks', ['deleteTask', 'doneTask', 'startTracking', 'stopTracking']),
     openEdit (index) {
       this.$q.dialog({
         component: EditTask,

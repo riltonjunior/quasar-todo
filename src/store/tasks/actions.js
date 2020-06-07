@@ -3,17 +3,18 @@ import { showNotify } from 'src/functions/function-show-notify'
 import { Dialog } from 'quasar'
 
 export function addTask ({ commit }, payload) {
-  if (payload === '') {
+  if (payload.title === '') {
     showNotify('warning', 'Dê um nome a tarefa para adicioná-la.')
   } else {
     const task = {
-      title: payload,
+      title: payload.title,
       done: false,
       createdAt: Date.now(),
       timeStarted: '',
       timeStopped: '',
       timeDuration: 0,
       description: '',
+      categories: payload.cat,
       running: false
     }
     commit('ADD_TASK', task)
