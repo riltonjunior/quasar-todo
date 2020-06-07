@@ -9,7 +9,8 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "deploy": "push-dir --dir=dist/spa --remote=quasar-todo --branch=master"
   },
   "dependencies": {
     "@quasar/extras": "^1.0.0",
@@ -17,6 +18,7 @@
     "firebase": "^7.14.6",
     "moment": "^2.26.0",
     "moment-duration-format": "^2.3.2",
+    "push-dir": "^0.4.1",
     "quasar": "^1.0.0",
     "vue-i18n": "^8.0.0",
     "vuex-map-fields": "^1.4.0"
